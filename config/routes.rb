@@ -7,6 +7,10 @@ Rails.application.routes.draw do
 
     namespace :users do
       get '/', to:'users#index'
+
+      namespace :addresses do
+        post '/', to: 'addresses#create'
+      end
     end
   end
 end

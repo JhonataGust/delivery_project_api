@@ -9,6 +9,10 @@ module V1
 
       token = encode_token({user_id: @user.id})
 
+      address = Address.save_city(addresses_params, @user.id)
+
+      render json: {error: 'address city not found'} unless address
+
       render json: {user: @user, token: token}
     end
 
@@ -33,6 +37,10 @@ module V1
 
     def user_params
       params.require(:user).permit(:full_name, :email, :password, :phone)
+    end
+
+    def addresses_params
+      params.require(:address).permit(:street, :number, :complement, :district, :city)
     end
   end
 end

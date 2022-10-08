@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_26_002908) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_07_014335) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "adminpack"
   enable_extension "plpgsql"
@@ -21,6 +21,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_26_002908) do
     t.text "complement"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "district"
+    t.bigint "city_id"
+    t.bigint "user_id"
+    t.index ["city_id"], name: "index_addresses_on_city_id"
+    t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
   create_table "cities", force: :cascade do |t|
@@ -29,6 +34,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_26_002908) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "state_name"
+  end
+
+  create_table "clients", force: :cascade do |t|
+    t.string "company_name"
+    t.string "short_name"
+    t.float "company_relevance"
+    t.bigint "user_id", null: false
+    t.string "number"
+    t.string "email"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_clients_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -42,4 +60,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_26_002908) do
     t.datetime "session_till"
   end
 
+  add_foreign_key "clients", "users"
 end

@@ -17,16 +17,11 @@ module V1
       end
 
       def authorized_user
-        @user = User.find_by(id:session[:current_user_id])
-        return @user unless @user.nil?
         decoded_token = decode_token()
-        if decoded_token
-          user_id = decode_token[0]['user_id']
-          @user = User.find_by(id: user_id)
-          session[:current_user_id] = @user.id
-          @user.update(session_till: Time.now + 24.hours)
-          @user
-        end
+        user_id = decode_token[0]['user_id'] if decoded_token
+        @user = User.find_by(id: user_id)
+        return false if @user.nil?
+        @user
       end
 
       def authorize
