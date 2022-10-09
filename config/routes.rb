@@ -11,6 +11,8 @@ Rails.application.routes.draw do
       namespace :addresses do
         post '/', to: 'addresses#create'
       end
+
+      get '/clients', to:'clients#index'
     end
   end
 end
