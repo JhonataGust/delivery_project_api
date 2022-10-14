@@ -74,6 +74,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_09_174443) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "open"
+    t.string "close"
+    t.string "contact"
+    t.boolean "completed", default: false
     t.index ["user_id"], name: "index_clients_on_user_id"
   end
 
