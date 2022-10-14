@@ -7,12 +7,15 @@ Rails.application.routes.draw do
 
     namespace :users do
       get '/', to:'users#index'
+      get '/profile', to: 'users#profile'
+      put '/', to: 'users#update'
 
       namespace :addresses do
         post '/', to: 'addresses#create'
       end
 
       get '/clients', to:'clients#index'
+      post '/clients', to:'clients#create'
     end
   end
 end
