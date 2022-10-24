@@ -19,7 +19,7 @@ module V1
 
         return render json:{error: @client.errors}, status: 422 unless @client.valid?
 
-        notify_email(@client)
+        # notify_email(@client)
       end
 
       def update

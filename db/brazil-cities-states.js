@@ -1,5 +1,5 @@
 {
-  "states": [
+  "states" [
     {
       "uf": "AC",
       "name": "Acre",
