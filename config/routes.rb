@@ -16,6 +16,8 @@ Rails.application.routes.draw do
 
       get '/clients', to:'clients#index'
       post '/clients', to:'clients#create'
+      get '/clients/:id', to:'clients#show'
+      put '/clients/:id', to:'clients#update'
     end
   end
 end

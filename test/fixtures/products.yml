@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  value: 1.5
+  promotion: 1.5
+  client: one
+  duration_estimation: 2022-10-22 16:22:30
+  stock: false
+
+two:
+  name: MyString
+  description: MyText
+  value: 1.5
+  promotion: 1.5
+  client: two
+  duration_estimation: 2022-10-22 16:22:30
+  stock: false
