@@ -1,6 +1,7 @@
 json.id client.id
 json.uid client.uid
 json.email client.email
+json.mine client.user_id == @user.id ? true : false
 json.completed client.completed
 json.company_name client.company_name
 json.short_name client.short_name

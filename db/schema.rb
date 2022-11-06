@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_22_192230) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_05_162752) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "adminpack"
   enable_extension "plpgsql"
@@ -83,6 +83,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_22_192230) do
     t.index ["user_id"], name: "index_clients_on_user_id"
   end
 
+  create_table "extras", force: :cascade do |t|
+    t.string "name"
+    t.bigint "product_id", null: false
+    t.float "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_extras_on_product_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -93,6 +102,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_22_192230) do
     t.boolean "stock"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "product_type"
     t.index ["client_id"], name: "index_products_on_client_id"
   end
 
@@ -110,5 +120,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_22_192230) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "clients", "users"
+  add_foreign_key "extras", "products"
   add_foreign_key "products", "clients"
 end

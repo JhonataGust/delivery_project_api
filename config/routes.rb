@@ -13,11 +13,20 @@ Rails.application.routes.draw do
       namespace :addresses do
         post '/', to: 'addresses#create'
       end
+      namespace :clients do
+      get '/', to:'clients#index'
+      post '/', to:'clients#create'
+      get '/:id', to:'clients#show'
+      put '/:id', to:'clients#update'
 
-      get '/clients', to:'clients#index'
-      post '/clients', to:'clients#create'
-      get '/clients/:id', to:'clients#show'
-      put '/clients/:id', to:'clients#update'
+      get ':uid/products', to: 'products#index'
+      post '/products', to: 'products#create'
+      put '/products/:product_id', to: 'products#update'
+      get 'products/:product_id', to:  'products#show'
+
+      get '/extras', to: 'extras#index'
+      post '/extras', to: 'extras#create'
+      end
     end
   end
 end
