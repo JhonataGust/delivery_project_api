@@ -27,6 +27,14 @@ Rails.application.routes.draw do
       get '/extras', to: 'extras#index'
       post '/extras', to: 'extras#create'
       end
+
+      get '/user_carts', to: 'user_carts#index'
+      post '/user_carts', to: 'user_carts#create'
+      put '/user_carts/:id', to: 'user_carts#update'
+      get '/user_carts/:id', to: 'user_carts#show'
+
+      get '/orders', to: 'orders#index'
+      post '/orders', to: 'orders#create'
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_05_162752) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_11_204624) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "adminpack"
   enable_extension "plpgsql"
@@ -92,6 +92,27 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_05_162752) do
     t.index ["product_id"], name: "index_extras_on_product_id"
   end
 
+  create_table "order_relationships", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.integer "quantity"
+    t.float "value"
+    t.bigint "order_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_relationships_on_order_id"
+    t.index ["product_id"], name: "index_order_relationships_on_product_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.float "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "status"
+    t.boolean "accepted", default: false
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -104,6 +125,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_05_162752) do
     t.datetime "updated_at", null: false
     t.string "product_type"
     t.index ["client_id"], name: "index_products_on_client_id"
+  end
+
+  create_table "user_carts", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "product_id", null: false
+    t.jsonb "extra_ids"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_user_carts_on_product_id"
+    t.index ["user_id"], name: "index_user_carts_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -121,5 +152,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_05_162752) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "clients", "users"
   add_foreign_key "extras", "products"
+  add_foreign_key "order_relationships", "orders"
+  add_foreign_key "order_relationships", "products"
+  add_foreign_key "orders", "users"
   add_foreign_key "products", "clients"
+  add_foreign_key "user_carts", "products"
+  add_foreign_key "user_carts", "users"
 end
