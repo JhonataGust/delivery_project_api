@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_11_204624) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_13_164509) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "adminpack"
   enable_extension "plpgsql"
@@ -99,6 +99,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_11_204624) do
     t.bigint "order_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "extra_ids"
+    t.integer "status", default: 0
+    t.boolean "accepted"
+    t.bigint "client_id"
+    t.index ["client_id"], name: "index_order_relationships_on_client_id"
     t.index ["order_id"], name: "index_order_relationships_on_order_id"
     t.index ["product_id"], name: "index_order_relationships_on_product_id"
   end
@@ -110,6 +115,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_11_204624) do
     t.datetime "updated_at", null: false
     t.integer "status"
     t.boolean "accepted", default: false
+    t.integer "payment_type"
+    t.boolean "delivery"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 

@@ -7,7 +7,17 @@ module V1
         def index
           @clients = Client.make_param(params[:term], @user.id)
         end
-        def show
+
+        def show; end
+
+        def get_orders_call
+          clients_ids_current = @user&.clients&.map(&:id)
+          @call_orders = []
+          @orders = OrderRelationship.where(client_id: clients_ids_current, accepted: false)
+
+          @orders.each do |order|
+            @call_orders << order if order.created_at > Time.now - 1.minute
+          end 
         end
 
         def category
@@ -18,30 +28,28 @@ module V1
         def create
           @client = Client.create(clients_params_attributes)
 
-          return render json:{error: @client.errors}, status: 422 unless @client.valid?
+          return render json: { error: @client.errors }, status: 422 unless @client.valid?
 
           notify_email(@client)
         end
 
         def update
-          @client.logo.attach(clients_params[:logo]) unless clients_params[:logo] == ""
+          @client.logo.attach(clients_params[:logo]) unless clients_params[:logo] == ''
 
-          if clients_params[:logo].blank? && @client.logo.attached?
-            @client.logo.purge
-          end
+          @client.logo.purge if clients_params[:logo].blank? && @client.logo.attached?
 
           @client.update(clients_params_attributes.except(:logo))
 
-          return render json:{error: @client.errors}, status: 422 unless @client.valid?
+          return render json: { error: @client.errors }, status: 422 unless @client.valid?
         end
 
         private
 
         def notify_email(client)
-            ClientsMailer.with(
-              client: client,
-              user: @user
-            ).confirmation.deliver_later
+          ClientsMailer.with(
+            client: client,
+            user: @user
+          ).confirmation.deliver_later
         end
 
         def clients_params_attributes
@@ -51,14 +59,15 @@ module V1
         end
 
         def clients_params
-          params.require(:client).permit(:company_name,:short_name,:company_relevance,:user_id,:number,:email,:description, :open, :close, :contact, :logo)
+          params.require(:client).permit(:company_name, :short_name, :company_relevance, :user_id, :number, :email,
+                                         :description, :open, :close, :contact, :logo)
         end
 
         def set_client
           @client = Client.find_by(id: params[:id])
           @client = Client.find_by(uid: params[:id]) if @client.nil?
 
-          return render json: {error: 'Client not Found'}, status: 404 if @client.nil?
+          return render json: { error: 'Client not Found' }, status: 404 if @client.nil?
         end
       end
     end

@@ -3,6 +3,8 @@ json.product_name user_cart.product.name
 json.product_decription user_cart.product.description
 json.product_promotion user_cart.product.promotion
 json.product_value user_cart.product.value
+json.extra_ids user_cart.extra_ids
+json.product_id user_cart.product_id
 json.product_image user_cart.product.image.attached? ? polymorphic_url(user_cart.product.image) : ''
 if !user_cart.extra_ids.empty?
 json.extras Extra.where(id: user_cart.extra_ids)
