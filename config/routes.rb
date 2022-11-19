@@ -10,8 +10,12 @@ Rails.application.routes.draw do
       get '/profile', to: 'users#profile'
       put '/', to: 'users#update'
 
-      
+
       put 'order_relationships/accept/:id', to: 'order_relationships#update'
+
+      get '/messages', to: 'messages#index'
+      post '/messages', to: 'messages#create'
+      put '/messages/:id', to: 'messages#update'
 
       namespace :addresses do
         post '/', to: 'addresses#create'
@@ -22,6 +26,9 @@ Rails.application.routes.draw do
         post '/', to: 'clients#create'
         get '/:id', to: 'clients#show'
         put '/:id', to: 'clients#update'
+
+        get '/:uid/orders', to: 'order_relationships#index'
+        put '/:uid/orders/:id', to: 'order_relationships#update'
 
         get ':uid/products', to: 'products#index'
         post '/products', to: 'products#create'
